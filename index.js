@@ -127,8 +127,11 @@ function callSendAPI(sender_psid, response) {
         },
         body: JSON.stringify(request_body)
   })
-  .then(response => response.json())
-  .then(data => {
-      console.log("data ", data);
-  });
+  .then((err, res, body) => {
+      if (!err) {
+          console.log("Response sent!");
+      } else {
+          console.error("Cannot send message");
+      }
+  })
 }
