@@ -12,7 +12,7 @@ app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 app.get("/", function(req, resp) {
     console.log("req");
     console.log(req);
-    resp.status(200).send("Deployed Application!");
+    resp.send("Deployed Application!");
 });
 
 app.post('/webhook', (req, resp) => {
