@@ -7,8 +7,13 @@ const
   app = express().use(bodyParser.json()), // creates express http server
   port = process.env.PORT || 1337;
 
+let server = require('http').Server(app);
+
+
 // Sets server port and logs message on success
-app.listen(port, () => console.log('webhook is listening'));
+server.listen(port, () => {
+    console.log("App is running on port " + port);
+});
 
 app.get("/", function(req, resp) {
     resp.status(200).send("Deployed Application!\n");
