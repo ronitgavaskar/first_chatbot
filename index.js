@@ -112,17 +112,35 @@ function callSendAPI(sender_psid, response) {
 
   // Send the HTTP request to the Messenger Platform
 
-  fetch('https://graph.facebook.com/v2.6/me/messages', {
-        method: 'post',
-        qs: { "access_token": PAGE_ACCESS_TOKEN },
-        body: JSON.stringify(request_body),
+  var url = new URL('https://graph.facebook.com/v2.6/me/messages',
+    params = {"access_token": PAGE_ACCESS_TOKEN}
+  );
+  Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+
+
+  fetch(url, {
+        method: 'POST',
         headers: { 
             'Content-Type': 'application/json' 
-        }
-  }).then((err, res, body) => {
-      console.log(err);
-      console.log(res);
+        },
+        body: JSON.stringify(request_body)
   })
+  .then(response => response.json())
+  .then(data => {
+      console.log("data ", data);
+  });
+
+//   fetch('https://graph.facebook.com/v2.6/me/messages', {
+//         method: 'post',
+//         qs: { "access_token": PAGE_ACCESS_TOKEN },
+//         body: JSON.stringify(request_body),
+//         headers: { 
+//             'Content-Type': 'application/json' 
+//         }
+//   }).then((err, res, body) => {
+//       console.log(err);
+//       console.log(res);
+//   })
 
 //   fetch({
 //     "uri": "https://graph.facebook.com/v2.6/me/messages",
