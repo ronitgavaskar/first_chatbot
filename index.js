@@ -1,23 +1,51 @@
 'use strict';
 
+var express = require("express");
+var request = require("request");
+var bodyParser = require("body-parser");
+
+var app = express();
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+app.listen((process.env.PORT || 5000));
+
+// Server index page
+app.get("/", function (req, res) {
+  res.send("Deployed!");
+});
+
+// Facebook Webhook
+// Used for verification
+app.get("/webhook", function (req, res) {
+  if (req.query["hub.verify_token"] === "this_is_my_token") {
+    console.log("Verified webhook");
+    res.status(200).send(req.query["hub.challenge"]);
+  } else {
+    console.error("Verification failed. The tokens do not match.");
+    res.sendStatus(403);
+  }
+});
+
+
+
 // Imports dependencies and set up http server
 // const
 //   express = require('express'),
 //   bodyParser = require('body-parser'),
 //   app = express().use(bodyParser.json()); // creates express http server
 
-var app = express();
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
+// var app = express();
+// app.use(bodyParser.urlencoded({extended: false}));
+// app.use(bodyParser.json());
 
-// Sets server port and logs message on success
-app.listen((process.env.PORT || 5000));
+// // Sets server port and logs message on success
+// app.listen((process.env.PORT || 5000));
 
-app.get("/", function(req, resp) {
-    console.log("req");
-    console.log(req);
-    resp.send("Deployed Application!");
-});
+// app.get("/", function(req, resp) {
+//     console.log("req");
+//     console.log(req);
+//     resp.send("Deployed Application!");
+// });
 
 // app.post('/webhook', (req, resp) => {
 //     let body = req.body;
