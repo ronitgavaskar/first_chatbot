@@ -4,13 +4,14 @@
 const
   express = require('express'),
   bodyParser = require('body-parser'),
-  app = express().use(bodyParser.json()); // creates express http server
+  app = express().use(bodyParser.json()), // creates express http server
+  port = process.env.PORT || 1337;
 
 // Sets server port and logs message on success
-app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
+app.listen(port, () => console.log('webhook is listening'));
 
 app.get("/", function(req, resp) {
-    resp.status(200).send("Deployed Application!");
+    resp.status(200).send("Deployed Application!\n");
 })
 
 app.post('/webhook', (req, resp) => {
