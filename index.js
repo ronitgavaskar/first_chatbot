@@ -11,7 +11,7 @@ app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
 app.get("/", function(req, resp) {
     resp.status(200).send("Deployed Application!");
-})
+});
 
 app.post('/webhook', (req, resp) => {
     let body = req.body;
