@@ -5,14 +5,14 @@ const
   express = require('express'),
   bodyParser = require('body-parser'),
   app = express().use(bodyParser.json()), // creates express http server
-  port = process.env.PORT || 1337;
+  PORT = process.env.PORT || 1337;
 
 let server = require('http').Server(app);
 
 
 // Sets server port and logs message on success
-server.listen(port, () => {
-    console.log("App is running on port " + port);
+server.listen(PORT, () => {
+    console.log("App is running on port " + PORT);
 });
 
 app.get("/", function(req, resp) {
