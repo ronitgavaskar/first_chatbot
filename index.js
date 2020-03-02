@@ -5,6 +5,7 @@ const
   express = require('express'),
   bodyParser = require('body-parser'),
   fetch = require('node-fetch'),
+  { URLSearchParams } = require('url');
   app = express().use(bodyParser.json()), // creates express http server
   PORT = process.env.PORT || 1337,
   PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
@@ -109,39 +110,33 @@ function callSendAPI(sender_psid, response) {
   }
 
   // Send the HTTP request to the Messenger Platform
-  fetch({
-    "uri": "https://graph.facebook.com/v2.6/me/messages",
-    "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
-    "method": "POST",
-    "json": request_body
+
+  fetch('https://graph.facebook.com/v2.6/me/messages', {
+        method: 'post',
+        qs: { "access_token": PAGE_ACCESS_TOKEN },
+        body: JSON.stringify(request_body),
+        headers: { 
+            'Content-Type': 'application/json' 
+        }
   }).then((err, res, body) => {
+      console.log(err);
       console.log(res);
-      console.log("====");
-      console.log(body);
-      console.log("====");
-    if (!err) {
-        console.log('message sent!')
-    } else {
-        console.error("Unable to send message:" + err);
-    }
-  });
+  })
 
 //   fetch({
-    // "uri": "https://graph.facebook.com/v2.6/me/messages",
-    // "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
-    // "method": "POST",
-    // "json": request_body
-//   }, (err, res, body) => {
-//     console.log(err);
-//     console.log("====");
-//     console.log(res);
-//     console.log("====");
-//     console.log(body);
-
-    // if (!err) {
-    //   console.log('message sent!')
-    // } else {
-    //   console.error("Unable to send message:" + err);
-    // }
-//   }); 
+//     "uri": "https://graph.facebook.com/v2.6/me/messages",
+//     "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
+//     "method": "POST",
+//     "json": request_body
+//   }).then((err, res, body) => {
+//       console.log(res);
+//       console.log("====");
+//       console.log(body);
+//       console.log("====");
+//     if (!err) {
+//         console.log('message sent!')
+//     } else {
+//         console.error("Unable to send message:" + err);
+//     }
+//   });
 }
