@@ -9,12 +9,12 @@ Use the following commands to deploy to heroku:
 
 `heroku login`
 `heroku create`
-
-### To push your changes to heroku:
 `git add .`
-`heroku push origin master`
-`git push` 
+`git commit -m "pushing to heroku"`
+`git push heroku master`
 
-#### Please keep github and heroku in sync
+
+### Resources
+* https://dev.to/lawrenceagles/causes-of-heroku-h10-app-crashed-error-and-how-to-solve-them-3jnl
 
 
