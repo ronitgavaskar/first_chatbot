@@ -39,7 +39,7 @@ app.post('/webhook', (req, resp) => {
 app.get('/webhook', (req, resp) => {
     
     // verify token 
-    let VERIFY_TOKEN = process.env.VERIFY_TOKEN;
+    let VERIFICATION_TOKEN = process.env.VERIFICATION_TOKEN;
 
     //parse query parameters
     let mode = req.query['hub.mode'];
@@ -48,7 +48,7 @@ app.get('/webhook', (req, resp) => {
 
     // check if mode and token is in query string of request
     if (mode && token) {
-        if (mode == 'subscribe' && token == VERIFY_TOKEN) {
+        if (mode == 'subscribe' && token == VERIFICATION_TOKEN) {
             //then we know that user is verified
 
             console.log('WEBHOOK VERIFIED');
