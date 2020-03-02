@@ -1,93 +1,59 @@
 'use strict';
 
-var express = require("express");
-var request = require("request");
-var bodyParser = require("body-parser");
-
-var app = express();
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
-app.listen((process.env.PORT || 5000));
-
-// Server index page
-app.get("/", function (req, res) {
-  res.send("Deployed!");
-});
-
-// Facebook Webhook
-// Used for verification
-app.get("/webhook", function (req, res) {
-  if (req.query["hub.verify_token"] === "this_is_my_token") {
-    console.log("Verified webhook");
-    res.status(200).send(req.query["hub.challenge"]);
-  } else {
-    console.error("Verification failed. The tokens do not match.");
-    res.sendStatus(403);
-  }
-});
-
-
-
 // Imports dependencies and set up http server
-// const
-//   express = require('express'),
-//   bodyParser = require('body-parser'),
-//   app = express().use(bodyParser.json()); // creates express http server
+const
+  express = require('express'),
+  bodyParser = require('body-parser'),
+  app = express().use(bodyParser.json()); // creates express http server
 
-// var app = express();
-// app.use(bodyParser.urlencoded({extended: false}));
-// app.use(bodyParser.json());
+// Sets server port and logs message on success
+app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
-// // Sets server port and logs message on success
-// app.listen((process.env.PORT || 5000));
+app.get("/", function(req, resp) {
+    resp.status(200).send("Deployed Application!");
+})
 
-// app.get("/", function(req, resp) {
-//     console.log("req");
-//     console.log(req);
-//     resp.send("Deployed Application!");
-// });
+app.post('/webhook', (req, resp) => {
+    let body = req.body;
 
-// app.post('/webhook', (req, resp) => {
-//     let body = req.body;
+    // check if event is from page subscription
+    if(body.object === 'page') {
 
-//     // check if event is from page subscription
-//     if(body.object === 'page') {
-
-//         body.entry.forEach(function(entry) {
+        body.entry.forEach(function(entry) {
             
-//             //message will be stored in the array entry.messaging
-//             let webhook_event = entry.messaging[0];
-//             console.log(webhook_event);
-//         });
+            //message will be stored in the array entry.messaging
+            let webhook_event = entry.messaging[0];
+            console.log(webhook_event);
+        });
 
-//         resp.status(200).send('EVENT_RECEIVED');
-//     } else {
-//         //page not found
-//         resp.sendStatus(404);
-//     }
-// });
+        resp.status(200).send('EVENT_RECEIVED');
+    } else {
+        //page not found
+        resp.sendStatus(404);
+    }
+});
 
-// app.get('/webhook', (req, resp) => {
+app.get('/webhook', (req, resp) => {
     
-//     // verify token 
-//     let VERIFY_TOKEN = "random_string_goes_here"
+    // verify token 
+    let VERIFY_TOKEN = "random_string_goes_here"
 
-//     //parse query parameters
-//     let mode = req.query['hub.mode'];
-//     let token = req.query['hub.token'];
-//     let challenge = req.query['hub.challenge'];
+    //parse query parameters
+    let mode = req.query['hub.mode'];
+    let token = req.query['hub.token'];
+    let challenge = req.query['hub.challenge'];
 
-//     // check if mode and token is in query string of request
-//     if (mode && token) {
-//         if (mode == 'subscribe' && token == VERIFY_TOKEN) {
-//             //then we know that user is verified
+    // check if mode and token is in query string of request
+    if (mode && token) {
+        if (mode == 'subscribe' && token == VERIFY_TOKEN) {
+            //then we know that user is verified
 
-//             console.log('WEBHOOK VERIFIED');
-//             resp.status(200).send(challenge + "\n");
-//         } else {
-//             // user is unauthorized
-//             console.log("not working")
-//             resp.sendStatus(403);
-//         }
-//     }
-// });
+            console.log('WEBHOOK VERIFIED');
+            resp.status(200).send(challenge + "\n");
+        } else {
+            // user is unauthorized
+            console.log("not working")
+            resp.sendStatus(403);
+        }
+    }
+});
