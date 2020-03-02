@@ -5,7 +5,8 @@ const
   express = require('express'),
   bodyParser = require('body-parser'),
   app = express().use(bodyParser.json()), // creates express http server
-  PORT = process.env.PORT || 1337;
+  PORT = process.env.PORT || 1337,
+  PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 // Sets server port and logs message on success
 app.listen(PORT, () => {
@@ -53,6 +54,11 @@ app.get('/webhook', (req, resp) => {
 
             console.log('WEBHOOK VERIFIED');
             resp.status(200).send(challenge + "\n");
+
+            // Get the sender PSID
+            let sender_psid = webhook_event.sender.id;
+            console.log('Sender PSID: ' + sender_psid);
+
         } else {
             // user is unauthorized
             console.log("not working")
@@ -60,3 +66,20 @@ app.get('/webhook', (req, resp) => {
         }
     }
 });
+
+/** Messenger API Functions */
+
+// Handles messages events
+function handleMessage(sender_psid, received_message) {
+
+}
+
+// Handles messaging_postbacks events
+function handlePostback(sender_psid, received_postback) {
+
+}
+
+// Sends response messages via the Send API
+function callSendAPI(sender_psid, response) {
+  
+}
