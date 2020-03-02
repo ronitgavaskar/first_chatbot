@@ -17,6 +17,18 @@ Use the following commands to deploy to heroku:
 * sender_psid
     * The sender's page-scoped ID is individually assigned to each user when they start a conversation with a      page
 
+# Webhook Events
+* There are different webhook events that each webhook can be subscribed to.
+* For this project, we will assume subscription to two particular callbacks
+    * `messages`
+        - occur when a message has been sent to the page
+        - may potentially contain attachments
+        - for more information, please refer to [this documentation](https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messages)
+
+    * `messaging_postbacks`
+        - occur when a postback button, Get Started button or `persistent_menu` item is selected 
+        - for more information, please refer to [this documentation](https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messaging_postbacks)
+
 
 ### Resources
 * https://dev.to/lawrenceagles/causes-of-heroku-h10-app-crashed-error-and-how-to-solve-them-3jnl
