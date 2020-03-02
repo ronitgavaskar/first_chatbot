@@ -90,6 +90,7 @@ function handleMessage(sender_psid, received_message) {
 
     // redirect to handler function for Send API
     callSendAPI(sender_psid, response);
+    console.log("hello");
 }
 
 // Handles messaging_postbacks events
@@ -114,6 +115,10 @@ function callSendAPI(sender_psid, response) {
     "method": "POST",
     "json": request_body
   }).then((err, res, body) => {
+      console.log(res);
+      console.log("====");
+      console.log(body);
+      console.log("====");
     if (!err) {
         console.log('message sent!')
     } else {
