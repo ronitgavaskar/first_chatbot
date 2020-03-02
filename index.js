@@ -62,6 +62,8 @@ app.get('/webhook', (req, resp) => {
             let sender_psid = webhook_event.sender.id;
             console.log('Sender PSID: ' + sender_psid);
             
+            console.log("====>>>>>");
+            console.log(webhook_event);
             // check webhook event type and redirect to appropriate handler
             if (webhook_event.message) {
                 handleMessage(sender_psid, webhook_event.message);
@@ -129,34 +131,5 @@ function callSendAPI(sender_psid, response) {
 //   .then(response => response.json())
 //   .then(data => {
 //       console.log("data ", data);
-//   });
-
-//   fetch('https://graph.facebook.com/v2.6/me/messages', {
-//         method: 'post',
-//         qs: { "access_token": PAGE_ACCESS_TOKEN },
-//         body: JSON.stringify(request_body),
-//         headers: { 
-//             'Content-Type': 'application/json' 
-//         }
-//   }).then((err, res, body) => {
-//       console.log(err);
-//       console.log(res);
-//   })
-
-//   fetch({
-//     "uri": "https://graph.facebook.com/v2.6/me/messages",
-//     "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
-//     "method": "POST",
-//     "json": request_body
-//   }).then((err, res, body) => {
-//       console.log(res);
-//       console.log("====");
-//       console.log(body);
-//       console.log("====");
-//     if (!err) {
-//         console.log('message sent!')
-//     } else {
-//         console.error("Unable to send message:" + err);
-//     }
 //   });
 }
