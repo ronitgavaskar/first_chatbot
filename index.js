@@ -114,6 +114,7 @@ function callSendAPI(sender_psid, response) {
 
   // Send the HTTP request to the Messenger Platform
 
+  let params;
   var url = new URL('https://graph.facebook.com/v2.6/me/messages',
     params = {"access_token": PAGE_ACCESS_TOKEN}
   );
