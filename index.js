@@ -31,6 +31,18 @@ app.post('/webhook', (req, resp) => {
             //message will be stored in the array entry.messaging
             let webhook_event = entry.messaging[0];
             console.log(webhook_event);
+
+            // Get the sender PSID
+            let sender_psid = webhook_event.sender.id;
+            console.log('Sender PSID: ' + sender_psid);
+            
+            // check webhook event type and redirect to appropriate handler
+            if (webhook_event.message) {
+                handleMessage(sender_psid, webhook_event.message);
+            } else if (webhook_event.postback) {
+                handlePostback(sender_psid, webhook_event.postback);
+            }
+
         });
 
         resp.status(200).send('EVENT_RECEIVED');
@@ -50,12 +62,6 @@ app.get('/webhook', (req, resp) => {
     let token = req.query['hub.token'];
     let challenge = req.query['hub.challenge'];
 
-
-    console.log("==<<<<<<<==>>>>>");
-    console.log(mode);
-    console.log(token);
-    console.log(challenge);
-
     // check if mode and token is in query string of request
     if (mode && token) {
         if (mode == 'subscribe' && token == VERIFICATION_TOKEN) {
@@ -64,18 +70,6 @@ app.get('/webhook', (req, resp) => {
             console.log('WEBHOOK VERIFIED');
             resp.status(200).send(challenge + "\n");
 
-            // Get the sender PSID
-            let sender_psid = webhook_event.sender.id;
-            console.log('Sender PSID: ' + sender_psid);
-            
-            console.log("====>>>>>");
-            console.log(webhook_event);
-            // check webhook event type and redirect to appropriate handler
-            if (webhook_event.message) {
-                handleMessage(sender_psid, webhook_event.message);
-            } else if (webhook_event.postback) {
-                handlePostback(sender_psid, webhook_event.postback);
-            }
         } else {
             // user is unauthorized
             console.log("not working")
@@ -125,17 +119,15 @@ function callSendAPI(sender_psid, response) {
   );
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
-  console.log(url);
-
-//   fetch(url, {
-//         method: 'POST',
-//         headers: { 
-//             'Content-Type': 'application/json' 
-//         },
-//         body: JSON.stringify(request_body)
-//   })
-//   .then(response => response.json())
-//   .then(data => {
-//       console.log("data ", data);
-//   });
+  fetch(url, {
+        method: 'POST',
+        headers: { 
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify(request_body)
+  })
+  .then(response => response.json())
+  .then(data => {
+      console.log("data ", data);
+  });
 }
