@@ -5,7 +5,7 @@ const
   express = require('express'),
   bodyParser = require('body-parser'),
   fetch = require('node-fetch'),
-  { URL } = require('url'),
+  { URLSearchParams } = require('url'),
   PORT = process.env.PORT || 1337,
   PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
@@ -114,12 +114,10 @@ function callSendAPI(sender_psid, response) {
 
   // Send the HTTP request to the Messenger Platform
 
-  let params;
-  var url = new URL('https://graph.facebook.com/v2.6/me/messages',
-    params = {"access_token": PAGE_ACCESS_TOKEN}
-  );
-  Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+  const params = {"access_token": PAGE_ACCESS_TOKEN}
+  const paramStr = new URLSearchParams(params);
 
+  const url = `https://graph.facebook.com/v2.6/me/messages?${paramStr.toString()}`;
   fetch(url, {
         method: 'POST',
         headers: { 
