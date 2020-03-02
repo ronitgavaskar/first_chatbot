@@ -7,12 +7,9 @@ const
   app = express().use(bodyParser.json()), // creates express http server
   PORT = process.env.PORT || 1337;
 
-let server = require('http').Server(app);
-
-
 // Sets server port and logs message on success
-server.listen(PORT, () => {
-    console.log("App is running on port " + PORT);
+app.listen(PORT, () => {
+    console.log(`Our app is running on port ${ PORT }`);
 });
 
 app.get("/", function(req, resp) {
