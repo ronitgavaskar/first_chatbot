@@ -58,7 +58,13 @@ app.get('/webhook', (req, resp) => {
             // Get the sender PSID
             let sender_psid = webhook_event.sender.id;
             console.log('Sender PSID: ' + sender_psid);
-
+            
+            // check webhook event type and redirect to appropriate handler
+            if (webhook_event.message) {
+                handleMessage(sender_psid, webhook_event.message);
+            } else if (webhook_event.postback) {
+                handlePostback(sender_psid, webhook_event.postback);
+            }
         } else {
             // user is unauthorized
             console.log("not working")
@@ -71,7 +77,18 @@ app.get('/webhook', (req, resp) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
+    let response;
 
+    // assign the response test
+    if (received_message.text) {
+        //create payload for basic text message
+        response = {
+            "text": `Hello! Welcome to dubnation!`
+        }
+    }
+
+    // redirect to handler function for Send API
+    callSendAPI(sender_psid, response);
 }
 
 // Handles messaging_postbacks events
@@ -81,5 +98,26 @@ function handlePostback(sender_psid, received_postback) {
 
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
-  
+    // construct message body
+    let req_body = {
+        "recipient": {
+            "id": sender_psid
+        }, 
+        "message": response
+    }
+
+    // make a POST request to the send API
+    request({
+        "uri": "https://graph.facebook.com/v2.6/me/messages",
+        "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
+        "method": "POST",
+        "json": req_body
+    }, (err, resp, body) => {
+        // if there's no error then console log message sent
+        if (!err) {
+            console.log('message sent!');
+        } else {
+            console.error("Unable to send message: " + err);
+        }
+    });
 }
