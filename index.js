@@ -117,18 +117,19 @@ function callSendAPI(sender_psid, response) {
   );
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
+  console.log(url);
 
-  fetch(url, {
-        method: 'POST',
-        headers: { 
-            'Content-Type': 'application/json' 
-        },
-        body: JSON.stringify(request_body)
-  })
-  .then(response => response.json())
-  .then(data => {
-      console.log("data ", data);
-  });
+//   fetch(url, {
+//         method: 'POST',
+//         headers: { 
+//             'Content-Type': 'application/json' 
+//         },
+//         body: JSON.stringify(request_body)
+//   })
+//   .then(response => response.json())
+//   .then(data => {
+//       console.log("data ", data);
+//   });
 
 //   fetch('https://graph.facebook.com/v2.6/me/messages', {
 //         method: 'post',
