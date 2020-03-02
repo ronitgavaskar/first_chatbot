@@ -115,9 +115,9 @@ function callSendAPI(sender_psid, response) {
   // Send the HTTP request to the Messenger Platform
 
   const params = {"access_token": PAGE_ACCESS_TOKEN}
-  const paramStr = new URLSearchParams(params);
+  const accessTokenParamsStr = new URLSearchParams(params);
 
-  const url = `https://graph.facebook.com/v2.6/me/messages?${paramStr.toString()}`;
+  const url = `https://graph.facebook.com/v2.6/me/messages?${accessTokenParamsStr.toString()}`;
   fetch(url, {
         method: 'POST',
         headers: { 
