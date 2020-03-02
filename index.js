@@ -6,9 +6,10 @@ const
   bodyParser = require('body-parser'),
   fetch = require('node-fetch'),
   { URLSearchParams } = require('url'),
-  app = express().use(bodyParser.json()), // creates express http server
   PORT = process.env.PORT || 1337,
   PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+
+var app = express().use(bodyParser.json());
 
 // Sets server port and logs message on success
 app.listen(PORT, () => {
