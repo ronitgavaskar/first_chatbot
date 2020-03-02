@@ -5,7 +5,7 @@ const
   express = require('express'),
   bodyParser = require('body-parser'),
   fetch = require('node-fetch'),
-  { URLSearchParams } = require('url'),
+  { URL } = require('url'),
   PORT = process.env.PORT || 1337,
   PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
