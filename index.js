@@ -4,7 +4,7 @@
 const
   express = require('express'),
   bodyParser = require('body-parser'),
-  request = require('node-fetch'),
+  fetch = require('node-fetch'),
   app = express().use(bodyParser.json()), // creates express http server
   PORT = process.env.PORT || 1337,
   PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
@@ -108,7 +108,7 @@ function callSendAPI(sender_psid, response) {
     }
 
     // make a POST request to the send API
-    request({
+    fetch({
         "uri": "https://graph.facebook.com/v2.6/me/messages",
         "qs": { "access_token": PAGE_ACCESS_TOKEN },
         "method": "POST",
